@@ -56,7 +56,7 @@ public:
 * **Inode中采用一个Block_id_t数组来索引到具体存储文件内容的Block。**即在Block_id_t Array中，下标为 i 的Block ID索引到存储第 i 部分文件内容的Block。
 * Inode中索引Block会采用多级索引。
 
-![image-20241113003900954](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113003900954.png)
+![image-20241205171453987](../images/1_filesystem/image-20241205171453987.png)
 
 * 一个Inode 最多能支持的文件大小为：$\ 一级Block指针数 * Block\_Size + ((二级Block指针数 * Block\_Size)/Block指针大小) * Block\_Size + ... $
 
@@ -84,7 +84,7 @@ public:
 
 * Inode Table由文件系统预先分配好放在一个固定的位置，存储Inode Table的Blocks是连续的。
 
-![image-20241113005645846](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113005645846.png)
+![image-20241113005645846](../images/1_filesystem/image-20241113005645846.png)
 
 #### 动态 Inode Table
 
@@ -97,7 +97,7 @@ public:
 * 需要根据Inode ID获取到Inode时，根据Inode ID在动态Inode Table中找到Inode所在的Block的Block ID，获取到对应的Block，其中的内容就是Inode Structure。
 * 当要存储新的文件时，在Inode Table中顺序遍历得到一个没有被分配的Inode ID即可（已经被使用的Inode其在Inode Table中对应的Block ID必定是有效的，即不是Invalid标记）。
 
-![image-20241113152940039](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113152940039.png)
+![image-20241113152940039](../images/1_filesystem/image-20241113152940039.png)
 
 #### Hint
 
@@ -113,7 +113,7 @@ public:
 * **Directory也作为文件的形式存储，因此文件系统中存储的文件包含普通文件、目录文件。**
 * 给定一个目录Directory，读取Directory的全部内容，可以在其中搜索文件名到Inode ID的映射，具体方式就是顺序遍历Directory中的内容寻找匹配的字符串，最终得到Inode ID。
 
-![image-20241118211419859](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118211419859.png)
+![image-20241118211419859](../images/1_filesystem/image-20241118211419859.png)
 
 ## Path Name Layer
 
@@ -135,7 +135,7 @@ public:
 
 * Link意味着目录树会出现环，为了避免环，可以**禁止目录Link目录**。
 
-  > ![image-20241113014600723](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113014600723.png)
+  > ![image-20241113014600723](../images/1_filesystem/image-20241113014600723.png)
 
 * **为了避免丢失对Inode的引用，不能直接删除Directory，必须保证Directory中为空时才能删除Directory。**
 
@@ -144,7 +144,7 @@ public:
 * 构建一个 $\ Soft\ Link \ Name \rightarrow File \ Path \ or \ File \ Name$的映射。
 * 创建 Soft Link时，并不要求Soft Link链接到的文件名真正存在对应的文件，因为Soft Link本身只是建立一个$\ 字符串 \rightarrow 字符串$的映射。**当使用这个Soft Link时，会找出其映射的文件名，根据这个文件名进行文件查找。**
 
-> ![image-20241113013246933](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113013246933.png)
+> ![image-20241113013246933](../images/1_filesystem/image-20241113013246933.png)
 
 ## 重命名
 
