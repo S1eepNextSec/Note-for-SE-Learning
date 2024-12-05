@@ -26,11 +26,11 @@
 >
 > 对于以上例子，如果a，b的数据写入的是不同Sector/Block，当a的数据所在的Sector/Block写入完毕，而机器出现问题导致fsync失败，那么b的数据所在的Sector/Block未写入，此时磁盘中就会出现a的数据被刷新而b的数据没有刷新，出现正确性问题。
 
-![f1b077fa-28a9-4016-a879-a6e3320099d6](C:\Users\STRANG~1\AppData\Local\Temp\f1b077fa-28a9-4016-a879-a6e3320099d6.png)
+![f1b077fa-28a9-4016-a879-a6e3320099d6](../images/6_atomicity/f1b077fa-28a9-4016-a879-a6e3320099d6.png)
 
 ------
 
-![d4c23839-cc84-4c60-9297-3eb1ea4357ab](C:\Users\STRANG~1\AppData\Local\Temp\d4c23839-cc84-4c60-9297-3eb1ea4357ab.png)
+![d4c23839-cc84-4c60-9297-3eb1ea4357ab](../images/6_atomicity/d4c23839-cc84-4c60-9297-3eb1ea4357ab.png)
 
 ## Shadow Copy 影子读写
 
@@ -100,9 +100,9 @@ Journaling的核心思想在于`Record Before Update`，对于一组数据修改
 
 这样子就能保证一组操作的原子性，要么都没有执行，要么全部执行成功。Journaling本质上是Log的简化版，在文件系统层面采用Journaling来保证对于跨多个Block的数据修改操作的原子性。Journaling需要在文件系统中预留下一个Sector来作为Journal的存放位置。如果Journal中要记录的操作内容过长，而磁盘物理上能保证原子性写入的单位是Sector，这样就会引发许多额外的问题，需要引入更复杂的技巧来解决。
 
-![image-20241102194123373](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241102194123373.png)
+![image-20241102194123373](../images/6_atomicity/image-20241102194123373.png)
 
-![image-20241102194135848](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241102194135848.png)
+![image-20241102194135848](../images/6_atomicity/image-20241102194135848.png)
 
 ## 日志
 
@@ -179,7 +179,7 @@ Undo-Redo Logging中一条日志记录基本包含以下内容：
 
 Undo-Redo Logging的Commit Point在于向日志中追加事务已提交标记的时刻。当一个事务在日志中标记为已提交，说明这个事务中所有操作涉及的旧值 & 新值已经在日志中记录并且成功持久化，但事务中涉及的文件内容修改可能并没有全部落盘，但能够通过REDO机制保证系统崩溃后会重做一遍已经标记为提交的事务，所以此时事务是处于“All-or-Nothing”中“All”的状态。若一个事务在日志中没有被标记为已提交，或标记为ABORT，说明出现故障，此时处于“All-or-Nothing”中的“Nothing”状态，通过UNDO机制回滚状态即可。
 
-> ![image-20241119184323181](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241119184323181.png)
+> ![image-20241119184323181](../images/6_atomicity/image-20241119184323181.png)
 
 #### 恢复
 
@@ -219,7 +219,7 @@ Undo-Redo Logging的Commit Point在于向日志中追加事务已提交标记的
 * 将`Page Cache`中的内容强制刷盘。
 * 除了CheckPoint记录以外的日志记录可以丢弃。
 
-![image-20241119191604366](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241119191604366.png)
+![image-20241119191604366](../images/6_atomicity/image-20241119191604366.png)
 
 日志中的内容是否可以丢弃，取决于事务是否完成以及事务内容是否落盘。
 
@@ -237,4 +237,4 @@ Undo-Redo Logging的Commit Point在于向日志中追加事务已提交标记的
 * 崩溃时未Commit且开始于CheckPoint前的，需要根据CheckPoint记录 & CheckPoint之后的Log entries进行Undo
 * 崩溃时未Commit且开始于CheckPoint后的，需要根据CheckPoint之后的Log entries进行Undo
 
-![image-20241104234418401](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241104234418401.png)
+![image-20241104234418401](../images/6_atomicity/image-20241104234418401.png)

@@ -31,11 +31,11 @@ NFS Client不能采用Server端的Inode ID 或 文件路径名来标识文件。
 
 > * File Handler不能直接使用Inode ID。并发操作下某一端对文件删除后再创建会导致相同Inode ID被再次分配，其他端可能会因此读取错误的文件内容。
 >
->   ![image-20241113193756837](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113193756837.png)
+>   ![image-20241113193756837](../images/3_distributed-filesystem/image-20241113193756837.png)
 >
 > * FIle Handler不能直接使用文件在Server端的路径名，即File Name。当目录中出现Rename操作后，会根据路径名读取到被重命名的其他文件。
 >
->   ![image-20241113193942303](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113193942303.png)
+>   ![image-20241113193942303](../images/3_distributed-filesystem/image-20241113193942303.png)
 
 NFS Client端对于上层应用提供的仍是POSIX接口，意味着**NFS Client端要维护File Table & File Descriptor结构**，而NFS Client是利用File Handler与NFS Server进行RPC通信，所以**NFS Client内存中需要维护本地生成的File Descriptor(fd)到NFS Server端传来的File Handler的映射**。
 
@@ -43,7 +43,7 @@ NFS Client端对于上层应用提供的仍是POSIX接口，意味着**NFS Clien
 
 因为NFS Server端设计为无状态，所以NFS Server端不会维护文件游标状态，NFS Client需要向上层呈现POSIX接口，由NFS Client来维护操作文件的游标。而**NFS Client调用RPC选择向NFS Server端传递要进行读/写的起始位置在文件中的起始偏移量(Offset)**，Client端自己记录当前偏移量。Offset保证了NFS Protocol文件操作语义的幂等性，只要传递相同的参数，保证执行结果每次都一致，这样**利于RPC通信在发送失败时的重试**。
 
-![image-20241113195406620](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113195406620.png)
+![image-20241113195406620](../images/3_distributed-filesystem/image-20241113195406620.png)
 
 ------
 
@@ -55,7 +55,7 @@ NFS Client端对于上层应用提供的仍是POSIX接口，意味着**NFS Clien
 * Master存储文件的元信息。
 * Chunk Servers负责存储文件的Chunk。
 
-![image-20241118220018031](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118220018031.png)
+![image-20241118220018031](../images/3_distributed-filesystem/image-20241118220018031.png)
 
 ### Chunk
 
@@ -115,7 +115,7 @@ Primary由Master来指定，一段时间内某一台Chunk Server被Master指定�
 * Client发送写入的Chunk内容到某一台Chunk Server，然后这个Chunk Server将Chunk内容转发到另一台存储对应副本的Chunk Server，而这一台Chunk Server又将Chunk内容继续传递给下一个存储对应副本的Chunk Server...这样形成一条数据链，最终所有存储对应Chunks内容的Chunk Server都会持有要写入的新内容。
 * 每个Chunk Server转发一次写入的Chunk内容，不会像只由Primary转发到所有Chunk Server那样传输内容过大受网络带宽限制。
 
-![image-20241118220036213](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118220036213.png)
+![image-20241118220036213](../images/3_distributed-filesystem/image-20241118220036213.png)
 
 #### 控制流
 
@@ -126,5 +126,5 @@ Primary由Master来指定，一段时间内某一台Chunk Server被Master指定�
 
 * 控制信息非常轻量级，意味着即使由Primary发送向所有Secondary Chunk Server也不会成为性能瓶颈。
 
-![image-20241118220044781](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118220044781.png)
+![image-20241118220044781](../images/3_distributed-filesystem/image-20241118220044781.png)
 

@@ -2,23 +2,23 @@
 
 ## API层结构
 
-![image-20241113145718215](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113145718215.png)
+![image-20241113145718215](../images/2_filesystem-API/image-20241113145718215.png)
 
 ## Open
 
-> ![image-20241113150429761](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113150429761.png)
+> ![image-20241113150429761](../images/2_filesystem-API/image-20241113150429761.png)
 
 ## Read
 
-> ![image-20241113150450910](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113150450910.png)
+> ![image-20241113150450910](../images/2_filesystem-API/image-20241113150450910.png)
 
 ## File Open & Read
 
-![image-20241113151422920](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113151422920.png)
+![image-20241113151422920](../images/2_filesystem-API/image-20241113151422920.png)
 
 ## File Creation & Write
 
-![image-20241113152524287](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113152524287.png)
+![image-20241113152524287](../images/2_filesystem-API/image-20241113152524287.png)
 
 文件写入操作顺序：
 
@@ -36,8 +36,8 @@
 
 ## Sync
 
-![image-20241113160125340](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113160125340.png)
+![image-20241113160125340](../images/2_filesystem-API/image-20241113160125340.png)
 
 ## Delete
 
-![image-20241113160139442](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241113160139442.png)
+![image-20241113160139442](../images/2_filesystem-API/image-20241113160139442.png)

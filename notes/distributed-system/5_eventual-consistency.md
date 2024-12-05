@@ -39,7 +39,7 @@
 
   对于相同的起始状态，只要对于相同顺序的写操作，逐个应用Update Function，能保证最终的状态一致并且与用户预期的数据操作语义一致。
 
-![image-20241101174832773](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241101174832773.png)
+![image-20241101174832773](../images/5_eventual-consistency/image-20241101174832773.png)
 
 #### Update Log	更新日志
 
@@ -65,11 +65,11 @@ Lamport Clock最终的形式为 <Logical Clock,Server ID>。
 
 个人认为Lamport Clock按照现实之中的时间来流动并不是一个好的实践，最好是按照原本Lamport描述的意思来，对于节点中每进行一次写入操作将本地的时钟 + 1。
 
-![image-20241025182507028](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025182507028.png)
+![image-20241025182507028](../images/5_eventual-consistency/image-20241025182507028.png)
 
-![image-20241026151632217](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241026151632217.png)
+![image-20241026151632217](../images/5_eventual-consistency/image-20241026151632217.png)
 
-![image-20241026152450076](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241026152450076.png)
+![image-20241026152450076](../images/5_eventual-consistency/image-20241026152450076.png)
 
 ##### Vector Clock
 
@@ -83,15 +83,15 @@ Lamport Clock最终的形式为 <Logical Clock,Server ID>。
 
 Vector Clock并不能保证全局操作序列中任意两个操作的发生时间可比较，定义的是偏序关系。
 
-![image-20241025182542402](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025182542402.png)
+![image-20241025182542402](../images/5_eventual-consistency/image-20241025182542402.png)
 
 ------
 
-![image-20241025182549035](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025182549035.png)
+![image-20241025182549035](../images/5_eventual-consistency/image-20241025182549035.png)
 
 ------
 
-![image-20241025182559721](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025182559721.png)
+![image-20241025182559721](../images/5_eventual-consistency/image-20241025182559721.png)
 
 #### Rollback&Replay 状态回滚 
 
@@ -188,7 +188,7 @@ Lamport逻辑时钟保证了存在因果关系的事件之间必定可以通过�
 
 这样子就可以对分布式系统中各个节点的事件得到一个唯一的排序。
 
-![image-20241025181338108](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025181338108.png)
+![image-20241025181338108](../images/5_eventual-consistency/image-20241025181338108.png)
 
 #### 向量时钟
 
@@ -207,7 +207,7 @@ Lamport逻辑时钟保证了存在因果关系的事件之间必定可以通过�
 
 向量时钟定义得到的顺序是一种偏序关系，也会存在无法进行唯一排序的并发事件。
 
-![image-20241025182154696](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241025182154696.png)
+![image-20241025182154696](../images/5_eventual-consistency/image-20241025182154696.png)
 
 
 

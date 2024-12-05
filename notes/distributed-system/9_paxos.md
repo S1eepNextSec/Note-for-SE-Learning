@@ -68,19 +68,19 @@ Proposer发送消息到的Quorum中的Acceptor，记该Acceptor先前见到过�
 
 #### Paxos Pseudo Code
 
-> ![image-20241118152114978](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118152114978.png)
+> ![image-20241118152114978](../images/9_paxos/image-20241118152114978.png)
 >
 > ------
 >
-> ![image-20241118152200011](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118152200011.png)
+> ![image-20241118152200011](../images/9_paxos/image-20241118152200011.png)
 >
 > ------
 >
-> ![image-20241118152225631](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118152225631.png)
+> ![image-20241118152225631](../images/9_paxos/image-20241118152225631.png)
 >
 > ------
 >
-> ![image-20241118152247704](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118152247704.png)
+> ![image-20241118152247704](../images/9_paxos/image-20241118152247704.png)
 
 ### 细节
 
@@ -114,7 +114,7 @@ Basic-Paxos确实可能导致同一时间多个Proposer在发起Proposal试图�
 * 已经Accept的最大的Proposal Number。
 * 已经Accept的Proposal Number最大的Proposal对应的Value。
 
-> ![image-20241118155621759](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118155621759.png)
+> ![image-20241118155621759](../images/9_paxos/image-20241118155621759.png)
 
 #### Learner是否必要？
 
@@ -138,7 +138,7 @@ Basic-Paxos确实可能导致同一时间多个Proposer在发起Proposal试图�
 * 在Paxos运行过程中，用Index来表明要就哪一个日志位置的值达成共识，即可完成对多个信息的共识记录。
 * 同一个Index位置一旦被使用，达成共识，之后不会再发生变动。
 
-![image-20241119103558781](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241119103558781.png)
+![image-20241119103558781](../images/9_paxos/image-20241119103558781.png)
 
 ### Leader Election
 

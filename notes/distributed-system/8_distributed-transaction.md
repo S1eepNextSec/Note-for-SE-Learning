@@ -65,7 +65,7 @@
     * 如果事务不可提交，则对每个Server发送<Abort T>
   * Server收到消息，在Server的日志中进行记录，并进行 Commit / Abort。
 
-![image-20241114235440132](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241114235440132.png)
+![image-20241114235440132](../images/8_distributed-transaction/image-20241114235440132.png)
 
 ### 故障
 
@@ -117,20 +117,20 @@
 >
 > * 工作节点故障
 >
-> ![image-20241117215820932](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241117215820932.png)
+> ![image-20241117215820932](../images/8_distributed-transaction/image-20241117215820932.png)
 >
 > ------
 >
-> ![image-20241117215833402](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241117215833402.png)
+> ![image-20241117215833402](../images/8_distributed-transaction/image-20241117215833402.png)
 >
 > ------
 >
-> ![image-20241117215920302](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241117215920302.png)
+> ![image-20241117215920302](../images/8_distributed-transaction/image-20241117215920302.png)
 >
 > * Coordinator故障
 >
-> ![image-20241117220008489](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241117220008489.png)
+> ![image-20241117220008489](../images/8_distributed-transaction/image-20241117220008489.png)
 >
 > ------
 >
-> ![image-20241117220037901](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241117220037901.png)
+> ![image-20241117220037901](../images/8_distributed-transaction/image-20241117220037901.png)

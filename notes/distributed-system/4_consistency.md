@@ -26,7 +26,9 @@ CAP定理中的一致性指的是对于**分布式系统中某个对象的值读
 
 * **严格一致性**下的所有并发数据操作**等价于某种线性执行**
 
-* **严格一致性**要求对于分布式系统中所有的数据操作必须按照**全局“墙上时钟”**的顺序进行（即使执行时间有交织的并发操作也必须要按照实际的“发射时间”（issue time）进行发生），相当于整个系统的所有操作必须退化为单一线程的顺序执行。![Consistency-Model-Serializability](https://www.baeldung.com/wp-content/uploads/sites/4/2024/02/Consistency-Model-Strict-Serializability.jpg)
+* **严格一致性**要求对于分布式系统中所有的数据操作必须按照**全局“墙上时钟”**的顺序进行（即使执行时间有交织的并发操作也必须要按照实际的“发射时间”（issue time）进行发生），相当于整个系统的所有操作必须退化为单一线程的顺序执行。
+
+  ![Consistency-Model-Serializability](https://www.baeldung.com/wp-content/uploads/sites/4/2024/02/Consistency-Model-Strict-Serializability.jpg)
 
 严格一致性难以实现。
 
@@ -76,7 +78,7 @@ CAP定理中的一致性指的是对于**分布式系统中某个对象的值读
 
 主备模式**同步写** & **主机读**保证了**线性一致性**。
 
-> ![image-20241118204032597](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241118204032597.png)
+> ![image-20241118204032597](../images/4_consistency/image-20241118204032597.png)
 
 ## 参考材料
 

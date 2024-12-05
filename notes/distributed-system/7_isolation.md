@@ -84,7 +84,7 @@ V是调度中所有事务构成的集合，E描述事物之间的冲突关系。
 
 对于一个调度S构建出的冲突图G(V,E)，如果图是无环的，认为这个调度S满足冲突可串行化；如果图是有环的，则认为调度S不满足冲突可串行化。
 
-![image-20241105200239812](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241105200239812.png)
+![image-20241105200239812](../images/7_isolation/image-20241105200239812.png)
 
 ------
 
@@ -96,7 +96,7 @@ V是调度中所有事务构成的集合，E描述事物之间的冲突关系。
 
 * 全局持有一把锁，所有动作执行前都必须获取这把锁，执行完成/提交后释放锁。
 
-> ![image-20241106103210973](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241106103210973.png)
+> ![image-20241106103210973](../images/7_isolation/image-20241106103210973.png)
 
 #### 优劣
 
@@ -110,7 +110,7 @@ V是调度中所有事务构成的集合，E描述事物之间的冲突关系。
 * 对于每一个共享的数据对象，都设置一把锁。
 * 当需要操作某个数据对象前，先获取对应的锁，操作结束后释放锁
 
-> ![image-20241106103527610](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241106103527610.png)
+> ![image-20241106103527610](../images/7_isolation/image-20241106103527610.png)
 
 #### 优劣
 
@@ -118,7 +118,7 @@ V是调度中所有事务构成的集合，E描述事物之间的冲突关系。
 * 不同线程访问多个共享对象，最终可能导致正确性问题，锁只保护一个数据对象的访问安全，但当需要保证隔离性的事务中涉及多个共享对象，数据使用完就立即释放锁，无法呈现出整体的隔离性。
 * 对某个具体共享对象使用前获取锁，结束后立马释放锁并不能防止事务执行过程中中间状态不被外界读取。
 
-> ![image-20241106103739239](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241106103739239.png)
+> ![image-20241106103739239](../images/7_isolation/image-20241106103739239.png)
 
 ------
 
@@ -157,7 +157,7 @@ V是调度中所有事务构成的集合，E描述事物之间的冲突关系。
 >
 > The action must acquire the shared data’s lock **before access it**, and release it until **all the action** finishes
 >
-> ![image-20241119201337799](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241119201337799.png)
+> ![image-20241119201337799](../images/7_isolation/image-20241119201337799.png)
 
 指的应该是Rigorous 2PL Protocol（严格两阶段锁协议），并且`CSE-11-before-or-after-atomicity.pptx`中并没有严格区分Exclusive Lock & Shared Lock。简单来说，`CSE`课上提到的2PL即在事务中对每一个共享的数据对象访问前必须拿到对应的锁，并且在整个事务过程中持有，直到事务所有操作结束才统一进行释放。
 
@@ -181,7 +181,7 @@ Proof:假设采用两阶段锁的并发事务存在一种不满足Conflict~Seria
 \\因此采用Two-Phase~Locking的并发事务产生的调度必定满足Conflict~Serializable
 $$
 
-> ![image-20241106131116373](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241106131116373.png)
+> ![image-20241106131116373](../images/7_isolation/image-20241106131116373.png)
 
 ------
 
@@ -217,17 +217,17 @@ Phase 2 & Phase 3 需要在同一个**Critical Section**中执行（避免在检
 * 检测阶段获取所有Read Set中涉及到的数据的锁，检测原始存储中对应数据是否被修改，若修改，ABORT。
 * 写入阶段获取所有Write Set中涉及到的数据的锁，进行写入。
 
-> ![885bb0cec8a25a84e89e46fda8b54746](C:\Users\StrangeMoon\Documents\Tencent Files\1842811232\nt_qq\nt_data\Pic\2024-11\Ori\885bb0cec8a25a84e89e46fda8b54746.png)
+> ![885bb0cec8a25a84e89e46fda8b54746](../images/7_isolation/885bb0cec8a25a84e89e46fda8b54746.png)
 
 检查 & 提交阶段采用两阶段锁能够保证更好地并发性能，但需要解决两阶段锁带来的**死锁问题**。基于两阶段锁的优化：
 
 * Phase 1会将所有需要的数据都读取到Local Work Space的Read Set中，并且所有写操作会存储在Local Work Space的Write Set中，根据Read Set & Write Set对所有数据进行一个排序，保证并发中使用2PL上锁顺序相同，避免死锁。
 
-  > ![image-20241109161649378](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109161649378.png)
+  > ![image-20241109161649378](../images/7_isolation/image-20241109161649378.png)
 
 * Read Set中的数据在原始数据存储中没有被修改，即通过验证阶段。只需要获取Write Set中所有数据的锁，并且检测Read Set中的所有数据没有被上锁且在原始存储中没有被修改，即认为通过验证。
 
-  > ![image-20241109162057925](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109162057925.png)
+  > ![image-20241109162057925](../images/7_isolation/image-20241109162057925.png)
 
 ### 观察
 
@@ -236,25 +236,25 @@ Phase 2 & Phase 3 需要在同一个**Critical Section**中执行（避免在检
 * 如果并发事务各自涉及到的数据集合（读集合 ∪ 写集合）不相交，意味着比不可能发生冲突，可以并发执行。
 * 如果并发事务读集合有重合，但是写集合不相交并且写集合与他者的读集合不交，那么也不可能发生冲突。
 
-> ![image-20241109162814427](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109162814427.png)
+> ![image-20241109162814427](../images/7_isolation/image-20241109162814427.png)
 >
 > ------
 >
-> ![image-20241109162826169](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109162826169.png)
+> ![image-20241109162826169](../images/7_isolation/image-20241109162826169.png)
 >
 > ------
 >
-> ![image-20241109162836720](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109162836720.png)
+> ![image-20241109162836720](../images/7_isolation/image-20241109162836720.png)
 
 ### 优劣
 
 > 懒得写了直接贴一张`CSE-12-TX.pptx`中的截图
 >
-> ![image-20241109163032198](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109163032198.png)
+> ![image-20241109163032198](../images/7_isolation/image-20241109163032198.png)
 
 * False Abort：如果两个并发事务按照2PL可以满足Conflict Serializability也可能导致OCC ABORT。
 
-  > ![image-20241109163339681](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109163339681.png)
+  > ![image-20241109163339681](../images/7_isolation/image-20241109163339681.png)
 
 * Live Lock：对于长时间进行的事务，有可能因为大量的短时间事务对其读集合对应的原始存储不断进行修改提交，而使得长时间运行的事务不断ABORT而无法成功，最终出现饿死的现象。在这种情况下需要一些调整，比如说阻塞住短时间事务来保证长时间事务的运行。
 
@@ -262,7 +262,7 @@ Phase 2 & Phase 3 需要在同一个**Critical Section**中执行（避免在检
 
 > From `CSE-12-TX.pptx`
 >
-> ![image-20241109164051000](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241109164051000.png)
+> ![image-20241109164051000](../images/7_isolation/image-20241109164051000.png)
 
 ------
 
@@ -297,19 +297,19 @@ Phase 2 & Phase 3 需要在同一个**Critical Section**中执行（避免在检
 
   > 提交的中间数据被读取到，事务提交呈现出非原子性的情况，并发事务提交的中间数据被读到意味着获取到的快照包含没有完全提交的数据。
   >
-  > ![image-20241110193907491](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241110193907491.png)
+  > ![image-20241110193907491](../images/7_isolation/image-20241110193907491.png)
 
 * MVCC中并发事务是在各自获取到的快照的基础上进行操作，彼此无法看到对方事务过程中的更新。如果不对并发事务的提交加以约束，就会出现数据写入竞态。因此需要在提交阶段对Write Set中的每一个数据进行检查，保证在此事务提交时没有别的事务在并发进行提交。
 
   > 从隔离性的角度来看，并发事务应当呈现Before & After Atomicity，也就是说要么T~1~先执行完毕后执行T~2~，要么T~2~先执行完毕后执行T~1~。而这里因为并发提交，二者操作基于的快照数据状态也一致，最终数据呈现的状态违反隔离性约束下的并发事务执行。
   >
-  > ![image-20241110193414929](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241110193414929.png)
+  > ![image-20241110193414929](../images/7_isolation/image-20241110193414929.png)
 
 * MVCC并不保证Serializability。
 
   > * Write Skew Case
   >
-  > ![image-20241110194315506](C:\Users\StrangeMoon\AppData\Roaming\Typora\typora-user-images\image-20241110194315506.png)
+  > ![image-20241110194315506](../images/7_isolation/image-20241110194315506.png)
 
 ------
 
