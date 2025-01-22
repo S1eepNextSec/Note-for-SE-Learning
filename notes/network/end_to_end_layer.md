@@ -146,3 +146,46 @@ Network层主要负责将数据包在网络中的一端传递向网络中的另�
 
 ## TCP协议的问题
 
+### **路由器缓冲过多的问题**
+
+`If routers have too much buffering, causes long delays`
+
+- 过多的缓冲会导致数据包排队时间过长，从而引发高延迟。
+- 这是网络性能的常见问题，特别是在需要实时响应的应用中（视频通话、在线游戏）。
+
+### **丢包的多种原因**
+
+`Packet loss is not always caused by congestion`
+
+- 数据包丢失不只会由网络拥塞引起，还可能源于其他因素，例如：
+  - **无线网络环境**：信号干扰、丢包率高。
+  - **硬件错误**：如路由器或交换机故障。
+
+`Consider wireless network: if losing packet, sender may send faster instead`
+
+- 在无线网络中，丢包可能不是拥塞的结果，而是由于信号问题（如干扰或弱信号）。信号问题反而应该更多地发包，而TCP协议会认为出现了网络拥塞反而降低发包频率。
+
+### **数据中心**
+
+`TCP does not perform well in datacenters`
+
+- 数据中心环境的特点是**高带宽**和**低延迟**。
+- TCP 设计偏向保守。
+
+### **RTT**
+
+`TCP has a bias against long RTTs`
+
+- TCP 的吞吐量与 RTT（往返时间）成反比（公式：Throughput ≈ Window Size / RTT）。
+- 这意味着：
+  - 长 RTT 会受到性能影响。
+  - 短 RTT 会表现得更高效。
+
+`Consider when sending packets really far away vs really close`
+
+### **源假设的局限性**
+
+`Assumes cooperating sources, which is not always a good assumption`
+
+- TCP 假设网络中的各方都按照协议规则进行协作（如拥塞控制和公平性）。
+- 但在现实中，可能存在不守规矩的参与者（如流量竞争或恶意攻击），破坏网络的公平性和稳定性。
